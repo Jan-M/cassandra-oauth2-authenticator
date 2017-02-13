@@ -50,7 +50,7 @@ public class Oauth2Authenticator implements IAuthenticator {
 
     @Override
     public Set<? extends IResource> protectedResources() {
-        return null;
+        return passwordAuthenticator.protectedResources();
     }
 
     @Override
