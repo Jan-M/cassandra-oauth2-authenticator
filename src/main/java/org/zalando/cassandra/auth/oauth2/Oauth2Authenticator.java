@@ -31,6 +31,10 @@ public class Oauth2Authenticator implements IAuthenticator {
 
     private final PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticator();
 
+    public Oauth2Authenticator() {
+        logger.info("Creating oauth2 authenticator");
+    }
+
     @Override
     public boolean requireAuthentication() {
         return true;
@@ -57,10 +61,12 @@ public class Oauth2Authenticator implements IAuthenticator {
     @Override
     public void setup() {
         logger.info("using oauth2 authenticator...");
+        passwordAuthenticator.setup();
     }
 
     @Override
     public SaslNegotiator newSaslNegotiator(InetAddress inetAddress) {
+        logger.info("Triggering SASL....");
         return new PlainTextSaslAuthenticator();
     }
 
@@ -69,6 +75,7 @@ public class Oauth2Authenticator implements IAuthenticator {
 
     public AuthenticatedUser legacyAuthenticate(Map<String, String> credentials) throws AuthenticationException
     {
+        logger.info("Receive legacy authenticate");
         String username = credentials.get(USERNAME_KEY);
         if (username == null)
             throw new AuthenticationException(String.format("Required key '%s' is missing", USERNAME_KEY));
